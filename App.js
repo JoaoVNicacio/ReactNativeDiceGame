@@ -2,16 +2,22 @@ import { Text, SafeAreaView, StyleSheet } from 'react-native';
 import { Card } from 'react-native-paper';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { HomeScreen } from "./screens/HomeScreen";
-import { DetailsScreen } from "./screens/DetailsScreen";
+import { HomeScreen } from "./Screens/HomeScreen";
+import { HistoricScreen } from "./Screens/HistoricScreen"
 
 const Stack = createNativeStackNavigator();
-
-
 
 export default function App() {
   return (
     <NavigationContainer>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+      />
+      <Stack.Screen
+        name="Historic"
+        component={HistoricScreen}
+      />
     </NavigationContainer>
   );
 }
