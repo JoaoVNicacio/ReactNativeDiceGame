@@ -2,6 +2,8 @@ import { Text, SafeAreaView, View, StyleSheet, Image } from 'react-native';
 import { useState } from 'react';
 import { Button, Card } from 'react-native-paper';
 import { dices } from './Dices';
+import { MatchResult } from '../Classes/MatchResult';
+import { saveMatchHistory, loadMatchHistory } from  '../AsyncStorage';
 
 export const HomeScreen = ({ navigation }) => {
     const diceRoll = () => Math.floor(Math.random() * 6);
@@ -12,18 +14,29 @@ export const HomeScreen = ({ navigation }) => {
     const setDiceValues = () => {
         setFirstDice(diceRoll());
         setSecondDice(diceRoll());
-        console.log(diceRoll())
     };
 
     const clickAction = () => {
         setDiceValues();
-        console.log("clicou");
-        console.log(firstDice);
-        console.log(secondDice);
-    }
+        console.log('clicou');
+      
+        const wonThisMatch = (firstDice + 1 + secondDice + 1) === 7 || (firstDice + 1 + secondDice + 1) === 11;
+        console.log(wonThisMatch);
+      
+        const thisMatch = new MatchResult(wonThisMatch, new Date());
+      
+        loadMatchHistory()
+          .then((history) => {
+            const updatedHistory = [...history, thisMatch];
+            saveMatchHistory(updatedHistory);
+          })
+          .catch((error) => {
+            console.error('Erro ao carregar ou salvar histórico:', error);
+          });
+      };
 
     return (
-        <SafeAreaView style = {styles.safeArea}>
+        <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
                 < Image
                     style={styles.image}

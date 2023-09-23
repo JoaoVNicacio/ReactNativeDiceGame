@@ -1,4 +1,4 @@
-class MatchResult {
+export class MatchResult {
     wonMatch;
     date;
 
